@@ -1,4 +1,4 @@
-name: Deploy to Surge
+name: Deploy a Surge.sh
 
 on:
   push:
@@ -10,10 +10,18 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
+      - name: Clonar el repositorio
+        uses: actions/checkout@v3
 
-    - name: Build and Deploy
+      - name: Instalar Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Instalar Surge.sh
+        run: npm install -g surge
+
+      - name: Desplegar en Surge.sh
         env:
           SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
         run: surge ./ https://parcial-electiva2.surge.sh --token $SURGE_TOKEN
